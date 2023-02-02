@@ -1,3 +1,4 @@
+import os.path
 import random
 import sqlite3
 from typing import List
@@ -46,7 +47,7 @@ def record_fight(winningHero: str, losingHero: str, arena: str) -> None:
     if arena not in ARENAS:
         raise ValueError(arena + " is not an Unmatched arena.")
 
-    conn = sqlite3.connect('/Users/kalebm/Python/unmatched/fights.db')
+    conn = sqlite3.connect(os.path.dirname(os.path.realpath(__file__)) + '/fights.db')
     c = conn.cursor()
     c.execute("""
         CREATE TABLE IF NOT EXISTS fights (
@@ -65,7 +66,7 @@ def record_fight(winningHero: str, losingHero: str, arena: str) -> None:
 
 # Function to show the last <count> fights recorded in the database
 def show_fights(count: int = 20) -> None:
-    conn = sqlite3.connect('/Users/kalebm/Python/unmatched/fights.db')
+    conn = sqlite3.connect(os.path.dirname(os.path.realpath(__file__)) + '/fights.db')
     c = conn.cursor()
     c.execute(f"SELECT * FROM fights ORDER BY id DESC LIMIT {count}")
     fights = c.fetchall()
